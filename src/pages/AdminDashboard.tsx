@@ -236,6 +236,113 @@ const AdminDashboard = () => {
               </div>
             </TabsContent>
 
+            {/* ===== Onglet Vérifications CNI / Documents ===== */}
+            <TabsContent value="verification" className="space-y-4">
+              <Card className="border-2 rounded-3xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileCheck className="h-5 w-5 text-primary" />
+                    Documents en attente de vérification
+                  </CardTitle>
+                  <CardDescription>
+                    Validez ou refusez les pièces d'identité (CNI) des Accompagnateurs.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {pendingDocuments.length === 0 ? (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <CheckCircle className="h-12 w-12 mx-auto mb-3 text-green-500" />
+                      <p className="font-semibold">Aucun document en attente</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {pendingDocuments.map((doc) => (
+                        <div key={doc.id} className="p-4 rounded-2xl border-2 flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+                              <FileCheck className="h-5 w-5 text-amber-600" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="font-semibold truncate">{doc.document_type || 'Document'}</p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                Soumis le {new Date(doc.created_at).toLocaleDateString('fr-FR')}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {doc.file_url && (
+                              <Button size="sm" variant="outline" asChild>
+                                <a href={doc.file_url} target="_blank" rel="noopener noreferrer">
+                                  <Eye className="h-4 w-4 mr-1" /> Voir
+                                </a>
+                              </Button>
+                            )}
+                            <Button
+                              size="sm"
+                              variant="default"
+                              onClick={async () => {
+                                const { error } = await supabase
+                                  .from('walker_documents')
+                                  .update({ verification_status: 'verified', verified_at: new Date().toISOString() })
+                                  .eq('id', doc.id);
+                                if (error) toast.error(error.message);
+                                else { toast.success("Document validé"); fetchAdminStats(); }
+                              }}
+                            >
+                              <CheckCircle className="h-4 w-4 mr-1" /> Valider
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={async () => {
+                                const reason = window.prompt("Motif de refus (obligatoire) :");
+                                if (!reason || !reason.trim()) {
+                                  toast.error("Motif obligatoire");
+                                  return;
+                                }
+                                const { error } = await supabase
+                                  .from('walker_documents')
+                                  .update({ verification_status: 'rejected', rejection_reason: reason })
+                                  .eq('id', doc.id);
+                                if (error) toast.error(error.message);
+                                else { toast.success("Document refusé"); fetchAdminStats(); }
+                              }}
+                            >
+                              <XCircle className="h-4 w-4 mr-1" /> Refuser
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* ===== Onglet Litiges ===== */}
+            <TabsContent value="disputes" className="space-y-4">
+              <Card className="border-2 rounded-3xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Scale className="h-5 w-5 text-primary" />
+                    Médiation des litiges ({openDisputes.length} ouvert{openDisputes.length > 1 ? 's' : ''})
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <DisputeTracker disputes={openDisputes.map(d => ({
+                    id: d.id,
+                    bookingId: d.booking_id,
+                    ownerName: "Propriétaire",
+                    walkerName: "Accompagnateur",
+                    reason: d.reason,
+                    status: d.status as any,
+                    createdAt: d.created_at,
+                    priority: "medium"
+                  }))} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
             <TabsContent value="finance">
               <Card className="border-2 rounded-3xl overflow-hidden">
                 <CardHeader className="bg-slate-900 text-white">
@@ -261,6 +368,40 @@ const AdminDashboard = () => {
                       <p className="text-xs font-black text-green-600 uppercase tracking-widest mb-1">Panier Moyen</p>
                       <p className="text-3xl font-black text-green-700">{stats.averageBookingValue.toFixed(2)}€</p>
                     </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* ===== Onglet Utilisateurs ===== */}
+            <TabsContent value="users" className="space-y-4">
+              <Card className="border-2 rounded-3xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-primary" />
+                    Utilisateurs récents
+                  </CardTitle>
+                  <CardDescription>
+                    {stats.totalOwners} Propriétaires · {stats.totalWalkers} Accompagnateurs
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {recentUsers.map((u) => (
+                      <div key={u.id} className="p-3 rounded-xl border flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={u.avatar_url || ''} />
+                          <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                            {u.first_name?.[0] || 'U'}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold truncate">{u.first_name} {u.last_name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{u.city || '—'} · {u.user_type || 'owner'}</p>
+                        </div>
+                        <Badge variant="outline">{new Date(u.created_at).toLocaleDateString('fr-FR')}</Badge>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MessageCircle, Send, ArrowLeft, Search, Image, Paperclip, X, Volume2 } from "lucide-react";
+import { MessageCircle, Send, ArrowLeft, Search, Image, Paperclip, X, Volume2, Lock, ShieldAlert } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRealtimeMessages, Conversation } from "@/hooks/useRealtimeMessages";
+import { useMessageGuard } from "@/hooks/useMessageGuard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -45,6 +46,12 @@ const MessagesTab = () => {
     isUserTyping,
     isUserOnline,
   } = useRealtimeMessages(selectedConversation?.otherParticipant?.id);
+
+  // Guard anti-fraude : tant qu'aucun paiement n'est en séquestre,
+  // la messagerie est restreinte à des messages pré-enregistrés (CDC §4.3 + §9.4).
+  const { hasConfirmedBooking, prewrittenMessages, loading: guardLoading } =
+    useMessageGuard(selectedConversation?.otherParticipant?.id);
+  const isRestricted = !!selectedConversation && !guardLoading && !hasConfirmedBooking;
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -338,40 +345,73 @@ const MessagesTab = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input with image button */}
+      {/* Input avec guard anti-fraude */}
       <div className="px-4 py-3 border-t bg-card">
-        <form onSubmit={e => { e.preventDefault(); handleSend(); }} className="flex gap-2 items-center">
-          <motion.button
-            type="button"
-            whileTap={{ scale: 0.9 }}
-            onClick={() => fileInputRef.current?.click()}
-            disabled={uploading}
-            className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0 disabled:opacity-50"
-          >
-            {uploading ? (
-              <motion.div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
-            ) : (
-              <Image className="w-4 h-4 text-muted-foreground" />
-            )}
-          </motion.button>
-          <input
-            ref={inputRef}
-            value={newMessage}
-            onChange={handleInputChange}
-            onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-            placeholder="Écrire un message..."
-            className="flex-1 px-4 py-2.5 rounded-full bg-muted text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-            disabled={sending}
-          />
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            type="submit"
-            disabled={sending || !newMessage.trim()}
-            className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center disabled:opacity-50 shrink-0"
-          >
-            <Send className="w-4 h-4 text-white" />
-          </motion.button>
-        </form>
+        {isRestricted ? (
+          <div className="space-y-2.5">
+            <div className="flex items-start gap-2 p-2.5 rounded-xl bg-amber-50 border border-amber-200">
+              <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <p className="text-[11px] text-amber-900 leading-snug">
+                <strong>Messagerie sécurisée.</strong> Avant le paiement, seuls les messages prédéfinis sont autorisés. Coordonnées personnelles interdites.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
+              {prewrittenMessages.map((msg, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  disabled={sending}
+                  onClick={async () => {
+                    if (!selectedConversation?.otherParticipant?.id) return;
+                    setSending(true);
+                    await sendMessage(msg, selectedConversation.otherParticipant.id);
+                    setSending(false);
+                  }}
+                  className="text-[11px] px-2.5 py-1.5 rounded-full bg-muted hover:bg-primary/10 hover:text-primary text-foreground transition-colors disabled:opacity-50"
+                >
+                  {msg}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <Lock className="w-3 h-3" />
+              <span>Messagerie libre disponible après paiement en attente.</span>
+            </div>
+          </div>
+        ) : (
+          <form onSubmit={e => { e.preventDefault(); handleSend(); }} className="flex gap-2 items-center">
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.9 }}
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0 disabled:opacity-50"
+            >
+              {uploading ? (
+                <motion.div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} />
+              ) : (
+                <Image className="w-4 h-4 text-muted-foreground" />
+              )}
+            </motion.button>
+            <input
+              ref={inputRef}
+              value={newMessage}
+              onChange={handleInputChange}
+              onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+              placeholder="Écrire un message..."
+              className="flex-1 px-4 py-2.5 rounded-full bg-muted text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              disabled={sending}
+            />
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              type="submit"
+              disabled={sending || !newMessage.trim()}
+              className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center disabled:opacity-50 shrink-0"
+            >
+              <Send className="w-4 h-4 text-white" />
+            </motion.button>
+          </form>
+        )}
       </div>
     </div>
   );
