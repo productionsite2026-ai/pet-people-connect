@@ -66,12 +66,13 @@ export const CancelBookingDialog = ({
         : CANCEL_REASONS.find(r => r.value === reason)?.label || reason;
 
       // 1) Récupère booking pour décider du remboursement
-      const { data: booking, error: fetchErr } = await supabase
+      const { data: bookingRaw, error: fetchErr } = await supabase
         .from('bookings')
-        .select('id, stripe_payment_intent_id, funds_released_at, payment_status')
+        .select('*')
         .eq('id', bookingId)
         .single();
       if (fetchErr) throw fetchErr;
+      const booking = bookingRaw as any;
 
       // 2) Remboursement conditionnel : uniquement si fonds non libérés
       const fundsReleased = !!booking?.funds_released_at || booking?.payment_status === 'released';
@@ -94,14 +95,16 @@ export const CancelBookingDialog = ({
       }
 
       // 3) Update booking (le webhook fera aussi sa part en arrière-plan)
+      const updatePayload: any = {
+        status: 'cancelled',
+        cancellation_reason: finalReason,
+        cancelled_by: session.user.id,
+      };
+      if (refundResult === 'refunded') updatePayload.payment_status = 'refunded';
+
       const { error } = await supabase
         .from('bookings')
-        .update({
-          status: 'cancelled',
-          cancellation_reason: finalReason,
-          cancelled_by: session.user.id,
-          ...(refundResult === 'refunded' ? { payment_status: 'refunded' } : {}),
-        })
+        .update(updatePayload)
         .eq('id', bookingId);
 
       if (error) throw error;
