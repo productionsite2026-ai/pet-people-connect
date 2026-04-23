@@ -320,6 +320,90 @@ const Tarifs = () => {
             <SEOFAQ faqs={faqItems} />
           </div>
 
+          {/* ===== SECTION PARRAINAGE ===== */}
+          <div id="parrainage" className="scroll-mt-24">
+            <SectionHeader
+              title="Parrainez vos amis, gagnez des crédits"
+              subtitle="Pour chaque ami qui réserve sa première mission, vous gagnez 15€ de crédit. Lui bénéficie de 10€ de réduction immédiate."
+              icon={Gift}
+              iconVariant="primary"
+            />
+
+            <div className="grid md:grid-cols-2 gap-6 mt-8">
+              <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <Card className="h-full border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+                  <CardHeader>
+                    <div className="flex items-center gap-2">
+                      <Star className="h-5 w-5 text-primary" />
+                      <CardTitle>Pour vous</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-5xl font-bold text-primary mb-2">15€</div>
+                    <p className="text-muted-foreground mb-4">de crédit pour chaque ami qui s'inscrit et réserve sa première mission.</p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> Sans limite de parrainages</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> Utilisable sur tous les services</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> Crédit valable 12 mois</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <Card className="h-full border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-accent/10 overflow-hidden relative">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+                  <CardHeader>
+                    <div className="flex items-center gap-2">
+                      <Gift className="h-5 w-5 text-accent" />
+                      <CardTitle>Pour votre filleul</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-5xl font-bold text-accent mb-2">10€</div>
+                    <p className="text-muted-foreground mb-4">de réduction immédiate sur sa première réservation avec votre code.</p>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> Appliquée automatiquement</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> Sur tous les services</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-success" /> Dès l'inscription</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+              {[
+                { num: "1", icon: Share2, title: "Partagez votre code", desc: "Disponible dans votre dashboard, partagez par SMS, email ou réseaux sociaux." },
+                { num: "2", icon: UserPlus, title: "Inscription du filleul", desc: "Votre ami s'inscrit avec votre code de parrainage." },
+                { num: "3", icon: CreditCard, title: "Première réservation", desc: "Il bénéficie de 10€ de réduction immédiate." },
+                { num: "4", icon: Gift, title: "Vous êtes récompensé", desc: "15€ de crédit ajoutés automatiquement à votre compte." },
+              ].map((step, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                  <Card className="h-full hover:shadow-md transition-shadow">
+                    <CardContent className="pt-6 text-center">
+                      <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold mx-auto mb-3">
+                        {step.num}
+                      </div>
+                      <step.icon className="h-5 w-5 text-primary mx-auto mb-2" />
+                      <h3 className="font-semibold mb-1 text-sm">{step.title}</h3>
+                      <p className="text-xs text-muted-foreground">{step.desc}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Button size="lg" className="rounded-full px-8" onClick={() => navigate("/dashboard?tab=parrainage")}>
+                <Gift className="mr-2 h-5 w-5" />
+                Récupérer mon code de parrainage
+              </Button>
+              <p className="text-xs text-muted-foreground mt-2">Connexion requise pour accéder à votre code unique.</p>
+            </div>
+          </div>
+
           <motion.div 
             className="text-center space-y-6"
             initial={{ opacity: 0, y: 20 }}
