@@ -58,41 +58,63 @@ serve(async (req) => {
       }
 
       case 'payment_intent.amount_capturable_updated': {
-        // Fonds autorisés (séquestre actif)
+        // Fonds autorisés et bloqués → séquestre actif (PENDING)
         const pi = event.data.object as Stripe.PaymentIntent;
         const bookingId = pi.metadata?.booking_id;
         if (bookingId) {
           await supabaseAdmin
             .from('bookings')
-            .update({ status: 'confirmed' })
-            .eq('id', bookingId)
-            .eq('status', 'pending');
+            .update({
+              status: 'confirmed',
+              payment_status: 'pending', // fonds bloqués, en attente de libération
+              stripe_payment_intent_id: pi.id,
+            })
+            .eq('id', bookingId);
         }
         break;
       }
 
       case 'payment_intent.succeeded': {
-        // Capture effectuée → fonds transférés au promeneur
+        // Capture effectuée → fonds RELEASED vers le promeneur (split auto via transfer_data)
         const pi = event.data.object as Stripe.PaymentIntent;
         const bookingId = pi.metadata?.booking_id;
         if (bookingId) {
           await supabaseAdmin
             .from('bookings')
-            .update({ funds_released_at: new Date().toISOString() })
-            .eq('id', bookingId)
-            .is('funds_released_at', null);
+            .update({
+              status: 'completed',
+              payment_status: 'released',
+              funds_released_at: new Date().toISOString(),
+            })
+            .eq('id', bookingId);
         }
         break;
       }
 
-      case 'payment_intent.canceled':
+      case 'charge.refunded':
+      case 'payment_intent.canceled': {
+        // Annulation OU remboursement → REFUNDED
+        const obj = event.data.object as any;
+        const bookingId = obj.metadata?.booking_id;
+        if (bookingId) {
+          await supabaseAdmin
+            .from('bookings')
+            .update({
+              status: 'cancelled',
+              payment_status: 'refunded',
+            })
+            .eq('id', bookingId);
+        }
+        break;
+      }
+
       case 'payment_intent.payment_failed': {
         const pi = event.data.object as Stripe.PaymentIntent;
         const bookingId = pi.metadata?.booking_id;
         if (bookingId) {
           await supabaseAdmin
             .from('bookings')
-            .update({ status: 'cancelled' })
+            .update({ status: 'cancelled', payment_status: 'failed' })
             .eq('id', bookingId);
         }
         break;
