@@ -10,58 +10,58 @@ import { useNavigate } from "react-router-dom";
 
 const useCases = [
   {
-    icon: Plane,
-    title: "Vous partez en voyage",
-    description: "Vacances, week-end ou déplacement : votre animal reste chez vous ou est promené chaque jour, sans stress de transport.",
-    gradient: "from-primary to-accent",
-    bgGradient: "from-primary/10 to-accent/10"
-  },
-  {
     icon: Briefcase,
-    title: "Journée de travail chargée",
-    description: "Réunions, déplacements pro, horaires à rallonge : un Accompagnateur passe sortir votre chien pendant que vous travaillez sereinement.",
+    title: "Réunion qui s'éternise",
+    description: "Il est 19h, vous êtes encore au bureau. Votre chien attend depuis 9h ce matin. Un Accompagnateur passe le sortir avant que vous rentriez.",
     gradient: "from-accent to-primary",
     bgGradient: "from-accent/10 to-primary/10"
   },
   {
+    icon: Plane,
+    title: "Week-end imprévu",
+    description: "Mariage à 600 km, train demain matin. Votre animal reste chez lui, dans ses repères, avec quelqu'un de vérifié — pas en pension.",
+    gradient: "from-primary to-accent",
+    bgGradient: "from-primary/10 to-accent/10"
+  },
+  {
     icon: HeartPulse,
-    title: "Maladie ou convalescence",
-    description: "Grippe, opération, fatigue passagère : on s'occupe de votre animal le temps que vous récupériez tranquillement à la maison.",
+    title: "Grippe carabinée",
+    description: "Vous tenez à peine debout. Votre chien, lui, a toujours besoin de sa balade. On envoie quelqu'un dans l'heure.",
     gradient: "from-primary/80 to-accent",
     bgGradient: "from-primary/10 to-accent/5"
   },
   {
     icon: Accessibility,
-    title: "Personne âgée ou à mobilité réduite",
-    description: "Garder son compagnon malgré les difficultés à le sortir : nos Accompagnateurs vous soulagent au quotidien, en douceur.",
+    title: "Maman / papa sénior",
+    description: "Vos parents adorent leur compagnon mais ne peuvent plus le sortir longtemps. On vient compléter leurs balades, plusieurs fois par semaine.",
     gradient: "from-accent to-accent/70",
     bgGradient: "from-accent/10 to-accent/5"
   },
   {
     icon: CloudRain,
-    title: "Mauvaise météo ou fatigue",
-    description: "Pluie, froid, journée épuisante… votre chien a quand même besoin de sortir. On prend le relais sans culpabilité.",
+    title: "Pluie, fatigue, démotivation",
+    description: "Il pleut depuis 3 jours. Vous savez que vous devriez sortir le chien. Vous savez aussi que vous ne le ferez pas. On le fait pour vous.",
     gradient: "from-primary to-primary/70",
     bgGradient: "from-primary/10 to-primary/5"
   },
   {
     icon: Baby,
-    title: "Arrivée d'un bébé",
-    description: "Nouveau rythme familial, nuits courtes : votre animal continue à profiter de promenades régulières et d'attention.",
+    title: "Bébé qui arrive",
+    description: "Maternité, biberons à 4h, vous êtes lessivés. Le chien ne doit pas en payer le prix : promenades quotidiennes maintenues.",
     gradient: "from-accent to-primary/80",
     bgGradient: "from-accent/10 to-primary/10"
   },
   {
     icon: Clock3,
-    title: "Imprévu de dernière minute",
-    description: "Rendez-vous médical, urgence familiale : trouvez un Accompagnateur disponible rapidement près de chez vous.",
+    title: "Vétérinaire à 16h",
+    description: "Rendez-vous médical, pas le temps de repasser. Votre animal est récupéré, déposé chez le véto, ramené. Tout est tracé.",
     gradient: "from-primary to-accent/80",
     bgGradient: "from-primary/10 to-accent/10"
   },
   {
     icon: Home,
-    title: "Garde à domicile pendant l'absence",
-    description: "Votre animal reste dans son environnement habituel, avec ses repères, ses jouets et ses habitudes. Moins de stress, plus de confort.",
+    title: "Vacances sans pension",
+    description: "Pas envie de mettre votre chien en chenil. Un Accompagnateur s'installe chez vous ou passe 2 fois par jour. Photos systématiques.",
     gradient: "from-accent/80 to-primary",
     bgGradient: "from-accent/10 to-primary/5"
   }
