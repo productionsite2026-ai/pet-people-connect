@@ -127,6 +127,22 @@ const BookWalk = () => {
       return;
     }
 
+    // Pré-vérification onboarding Stripe Connect du promeneur (commission 15/85 impossible sinon)
+    const { data: walkerStripe } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', walkerId)
+      .single();
+    const ws = walkerStripe as any;
+    if (!ws?.stripe_account_id || !ws?.stripe_charges_enabled) {
+      toast({
+        title: "Paiement indisponible",
+        description: "Cet accompagnateur n'a pas finalisé son onboarding paiement. Choisissez un autre promeneur ou réessayez plus tard.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const price = calculatePrice(data);
       const insertPayload: any = {
