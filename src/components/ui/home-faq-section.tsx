@@ -2,49 +2,54 @@ import { SEOFAQ } from "./seo-faq";
 import { motion } from "framer-motion";
 import { HelpCircle } from "lucide-react";
 
+// FAQ alignée sur les NOUVELLES sections de la home (déclencheurs + protocole 5 points)
+// Chaque question répond à une objection concrète, sans répétition.
 const homeFAQs = [
   {
-    question: "Comment fonctionne DogWalking pour trouver un Accompagnateur ?",
-    answer: "Consultez les Profils, Avis et Tarifs des Accompagnateurs Certifiés disponibles près de chez vous. Le paiement est sécurisé et bloqué jusqu’à la fin de la prestation, après validation via un code unique. Choisissez ensuite le type de service (Promenade, Garde, Visite, ...), entrez votre adresse et sélectionnez un ou plusieurs Accompagnateurs : votre demande est envoyée et reste en attente de leur confirmation. Vous pouvez également déposer une annonce libre en définissant votre budget et vos conditions ; vous recevrez plusieurs propositions de prestataires et pourrez choisir le profil le plus adapté."
+    question: "Et si je tombe sur quelqu'un de pas sérieux ?",
+    answer: "Vous ne tomberez pas dessus : 65% des candidats Accompagnateurs sont refusés. Chaque profil est vérifié manuellement par notre équipe (pièce d'identité, justificatifs, références). Et même si quelque chose se passait mal, le paiement reste bloqué jusqu'à VOTRE validation finale via votre code unique. L'Accompagnateur n'est jamais payé à l'avance."
   },
   {
-    question: "Les Accompagnateurs sont-ils vraiment vérifiés ?",
-    answer: "Absolument. Chaque Accompagnateur passe par un processus de sélection rigoureux, avec une vérification manuelle de chaque profil par notre équipe. Cela inclut la validation des informations personnelles, de la pièce d’identité (CNI), et des formations. Seuls 35% des candidats sont acceptés. Vous pouvez confier votre compagnon en toute sérénité."
+    question: "Concrètement, comment je sais que la promenade a vraiment eu lieu ?",
+    answer: "L'Accompagnateur envoie des photos pendant la mission directement sur votre fil de réservation. À la fin, il vous demande votre code unique à 4 chiffres. Tant que vous ne lui avez pas donné ce code, il ne touche pas un centime. Pas de photo, pas de code transmis = remboursement automatique."
   },
   {
-    question: "Que se passe-t-il si je ne suis pas satisfait de la prestation ?",
-    answer: "Grâce à notre système de paiement sécurisé en attente, votre argent reste bloqué jusqu’à validation de la prestation. Seul le Propriétaire détient un code unique, qu’il communique à l’Accompagnateur à la fin du service pour débloquer le paiement. Si l'Accompagnateur n’envoie pas de preuve visuelle (photo/vidéo) et un commentaire, ou si la prestation ne correspond pas à vos attentes, vous pouvez contester. Notre équipe support intervient sous 48h en cas de litige pour assurer une médiation équitable."
+    question: "C'est combien et qu'est-ce qui est compris dans le prix ?",
+    answer: "Les prix sont libres et fixés par chaque Accompagnateur, à partir de 8€ pour une promenade ou une visite, 10€ pour une garderie, 12€ pour une garde à domicile, 16€ pour une visite sanitaire. Le prix affiché inclut tout : la mission, le suivi photos, la garantie séquestre, le support. Aucun frais caché, aucun abonnement."
   },
   {
-    question: "Quels types de services propose DogWalking ?",
-    answer: "Nous proposons une Gamme Complète : Promenade, Visite à domicile, Garde (garderie), Hébergement chez l'Accompagnateur ou le Propriétaire, Visite Sanitaire (hygiène), gestion multi-animaux et Accompagnement Vétérinaire. La durée de chaque service est librement définie d’un commun accord entre le Propriétaire et l’Accompagnateur (minutes, heures, jours, nuits, prix…). Vous avez également la possibilité de déposer des annonces particulières, détaillées selon vos besoins. Chaque service est adapté aux besoins spécifiques de votre animal."
+    question: "Et si j'ai un imprévu et que je dois annuler ?",
+    answer: "Vous annulez en 2 clics depuis votre espace. Tant que la mission n'a pas commencé et que les fonds ne sont pas libérés, vous êtes intégralement remboursé automatiquement. À moins de 3h du début, c'est la médiation au cas par cas avec notre support."
   },
   {
-    question: "DogWalking est-il disponible dans ma ville ?",
-    answer: "DogWalking couvre l’ensemble du territoire français, avec une présence renforcée en Île-de-France et dans les grandes métropoles (Lyon, Marseille, Bordeaux, Toulouse, Nantes, Lille). Entrez votre adresse sur notre plateforme pour découvrir les Accompagnateurs Certifiés disponibles autour de vous. Notre réseau s’étend chaque jour grâce à vous : ce qui nous réunit, c’est l’amour des animaux. La plateforme est libre d’utilisation, dans le respect de chacun."
+    question: "Vous êtes dispos dans ma ville ?",
+    answer: "Présents partout en France métropolitaine, avec une forte densité en Île-de-France, Lyon, Marseille, Bordeaux, Toulouse, Nantes, Lille et leurs périphéries. Tapez votre adresse dans la recherche en haut de la page : vous voyez immédiatement les Accompagnateurs disponibles autour de vous, avec distance, tarif et premier créneau libre."
+  },
+  {
+    question: "Je préfère décrire mon besoin et recevoir des propositions, c'est possible ?",
+    answer: "Oui. Plutôt que de chercher manuellement, vous pouvez déposer une annonce libre : vous décrivez votre besoin, vous fixez votre budget (dans le respect des prix planchers), et vous recevez plusieurs propositions d'Accompagnateurs. Vous gardez le choix final."
   }
 ];
 
 export const HomeFAQSection = () => {
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-16 md:py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-12 max-w-2xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4 border border-primary/20">
             <HelpCircle className="w-4 h-4" />
-            FAQ
+            Les questions que vous vous posez vraiment
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Questions Fréquentes
+            Réponses directes, sans langue de bois
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Tout ce que vous devez savoir sur DogWalking, la plateforme n°1 
-            de promenade, de garde et d’accompagnement pour tous vos animaux.
+          <p className="text-base md:text-lg text-muted-foreground">
+            Les 6 questions qu'on nous pose le plus avant la première réservation.
           </p>
         </motion.div>
         <div className="max-w-3xl mx-auto">
