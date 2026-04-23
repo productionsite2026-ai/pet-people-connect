@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { BookingSteps } from "@/components/booking/BookingSteps";
 import { SEOHead } from "@/components/seo/SEOHead";
+import { createEscrowPayment } from "@/services/stripe";
 import type { Database } from "@/integrations/supabase/types";
 
 type ServiceType = Database['public']['Enums']['service_type'];
@@ -152,6 +153,38 @@ const BookWalk = () => {
 
       if (error) throw error;
 
+      // ===== STRIPE ESCROW : crée le PaymentIntent (séquestre + commission 15% auto) =====
+      // L'Edge Function applique application_fee_amount = 15% et reverse 85% via transfer_data
+      // au compte Stripe Connect du Accompagnateur. La capture (release) sera déclenchée
+      // à la saisie du code unique GO en fin de mission.
+      let escrowOk = false;
+      try {
+        const { data: ownerProfileEmail } = await supabase
+          .from('profiles')
+          .select('first_name, email')
+          .eq('id', userId)
+          .single();
+        const { data: walkerProfileEmail } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('id', walkerId!)
+          .single();
+
+        await createEscrowPayment({
+          bookingId: bookingData.id,
+          amount: price,
+          currency: 'eur',
+          walkerEmail: (walkerProfileEmail as any)?.email || '',
+          ownerEmail: (ownerProfileEmail as any)?.email || '',
+          missionDescription: `${data.service} - ${new Date(data.date).toLocaleDateString('fr-FR')}`,
+        });
+        escrowOk = true;
+      } catch (escrowErr: any) {
+        // Si l'Accompagnateur n'a pas finalisé son onboarding Stripe, on garde
+        // la résa en pending sans bloquer (notif admin recommandée).
+        console.warn('[escrow] paiement non créé :', escrowErr?.message);
+      }
+
       // Get dog name for notification
       const { data: dogData } = await supabase.from('dogs').select('name').eq('id', data.dogId).single();
       const dogName = dogData?.name || 'votre Animal';
@@ -170,8 +203,10 @@ const BookWalk = () => {
       });
 
       toast({
-        title: "Réservation effectuée !",
-        description: "Votre demande a été envoyée. l'Accompagnateur Certifié va confirmer.",
+        title: escrowOk ? "Réservation et paiement en attente créés ✓" : "Réservation envoyée",
+        description: escrowOk
+          ? "Vos fonds sont en séquestre. Ils seront libérés à la fin de la mission via le code unique."
+          : "Votre demande a été envoyée. l'Accompagnateur Certifié va confirmer.",
       });
       navigate('/dashboard?tab=reservations');
     } catch (error: any) {
