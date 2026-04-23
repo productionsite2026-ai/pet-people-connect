@@ -21,7 +21,7 @@ import MessagesTab from "@/components/dashboard-v2/tabs/MessagesTab";
 import WalkerTrainingTab from "@/components/dashboard/walker/TrainingTab";
 import WalkerInvoicesTab from "@/components/dashboard/walker/InvoicesTab";
 import WalkerAvailabilityTab from "@/components/dashboard/walker/AvailabilityTab";
-import SEOHead from "@/components/SEOHead";
+import { SEOHead } from "@/components/seo/SEOHead";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile, useWalkerProfile } from "@/hooks/useProfile";
@@ -129,7 +129,15 @@ const WalkerDashboard = () => {
 
         <QuickActions role="walker" notifications={{ bookings: bookings.filter((b: any) => b.status === "pending").length }} />
 
-        {activeMissionData && <ActiveMissionCard mission={activeMissionData} />}
+        {activeMissionData && (
+          <ActiveMissionCard
+            dogName={activeMissionData.dogName}
+            ownerName={activeMissionData.ownerName}
+            startTime={(activeMissionData as any).startTime || "—"}
+            location={(activeMissionData as any).location || "—"}
+            status={activeMissionData.status === "in_progress" ? "en_cours" : activeMissionData.status === "completed" ? "terminée" : "en_route"}
+          />
+        )}
 
         <EarningsCard
           today={displayEarnings.today}

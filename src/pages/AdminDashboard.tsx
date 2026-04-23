@@ -108,7 +108,7 @@ const AdminDashboard = () => {
       const { data: docsData } = await supabase
         .from('walker_documents')
         .select('*')
-        .eq('status', 'pending');
+        .eq('verification_status', 'pending');
       setPendingDocuments(docsData || []);
 
       // Open disputes
