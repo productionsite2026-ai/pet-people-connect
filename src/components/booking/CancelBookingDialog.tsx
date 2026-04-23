@@ -65,20 +65,58 @@ export const CancelBookingDialog = ({
         ? customReason 
         : CANCEL_REASONS.find(r => r.value === reason)?.label || reason;
 
+      // 1) Récupère booking pour décider du remboursement
+      const { data: booking, error: fetchErr } = await supabase
+        .from('bookings')
+        .select('id, stripe_payment_intent_id, funds_released_at, payment_status')
+        .eq('id', bookingId)
+        .single();
+      if (fetchErr) throw fetchErr;
+
+      // 2) Remboursement conditionnel : uniquement si fonds non libérés
+      const fundsReleased = !!booking?.funds_released_at || booking?.payment_status === 'released';
+      let refundResult: 'none' | 'refunded' | 'failed' = 'none';
+
+      if (booking?.stripe_payment_intent_id && !fundsReleased) {
+        const { data: refundData, error: refundErr } = await supabase.functions.invoke('stripe-escrow', {
+          body: {
+            action: 'refund',
+            paymentIntentId: booking.stripe_payment_intent_id,
+            reason: 'requested_by_customer',
+          },
+        });
+        if (refundErr || !refundData?.success) {
+          refundResult = 'failed';
+          console.error('Refund failed:', refundErr || refundData);
+        } else {
+          refundResult = 'refunded';
+        }
+      }
+
+      // 3) Update booking (le webhook fera aussi sa part en arrière-plan)
       const { error } = await supabase
         .from('bookings')
         .update({
           status: 'cancelled',
           cancellation_reason: finalReason,
-          cancelled_by: session.user.id
+          cancelled_by: session.user.id,
+          ...(refundResult === 'refunded' ? { payment_status: 'refunded' } : {}),
         })
         .eq('id', bookingId);
 
       if (error) throw error;
 
+      const desc = fundsReleased
+        ? "La mission est annulée. Les fonds ayant déjà été libérés, aucun remboursement automatique n'a été effectué — contactez le support si besoin."
+        : refundResult === 'refunded'
+        ? "Réservation annulée et remboursement initié sur votre moyen de paiement."
+        : refundResult === 'failed'
+        ? "Réservation annulée, mais le remboursement automatique a échoué. Le support va vous contacter."
+        : "La réservation a été annulée avec succès.";
+
       toast({
         title: "Réservation annulée",
-        description: "La réservation a été annulée avec succès"
+        description: desc,
       });
 
       setReason("");
