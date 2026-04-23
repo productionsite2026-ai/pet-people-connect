@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MessageCircle, Send, ArrowLeft, Search, Image, Paperclip, X, Volume2 } from "lucide-react";
+import { MessageCircle, Send, ArrowLeft, Search, Image, Paperclip, X, Volume2, Lock, ShieldAlert } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRealtimeMessages, Conversation } from "@/hooks/useRealtimeMessages";
+import { useMessageGuard } from "@/hooks/useMessageGuard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -45,6 +46,12 @@ const MessagesTab = () => {
     isUserTyping,
     isUserOnline,
   } = useRealtimeMessages(selectedConversation?.otherParticipant?.id);
+
+  // Guard anti-fraude : tant qu'aucun paiement n'est en séquestre,
+  // la messagerie est restreinte à des messages pré-enregistrés (CDC §4.3 + §9.4).
+  const { hasConfirmedBooking, prewrittenMessages, loading: guardLoading } =
+    useMessageGuard(selectedConversation?.otherParticipant?.id);
+  const isRestricted = !!selectedConversation && !guardLoading && !hasConfirmedBooking;
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
