@@ -111,93 +111,54 @@ const ServicePromenade = () => {
           statBadge={{ icon: Users, value: "2 500+", label: "Accompagnateurs actifs" }}
         />
 
-        {/* Pourquoi choisir nos promenades */}
-        <section className="py-16 bg-muted/30">
+        {/* Ce que la promenade DogWalking change concrètement */}
+        <section className="py-16 md:py-20 bg-muted/30">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+            <div className="text-center mb-12 max-w-2xl mx-auto">
+              <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+                Spécifique à la promenade
+              </Badge>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Pourquoi Choisir DogWalking pour la Promenade de Votre Chien ?
+                Une vraie balade, pas un tour du pâté de maisons
               </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Nous avons révolutionné la promenade canine en combinant technologie, sécurité et passion pour les animaux. 
-                Chaque balade est une expérience unique et sécurisée pour votre compagnon.
+              <p className="text-base md:text-lg text-muted-foreground">
+                Ce qui distingue concrètement nos promenades d'un service classique.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="border-2 hover:border-primary/50 transition-colors">
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              <Card className="border-2 hover:border-primary/50 transition-colors text-center">
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                    <Shield className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Accompagnateurs 100% Vérifiés</h3>
-                  <p className="text-muted-foreground">
-                    Chaque Accompagnateur fournit une pièce d'identité, une vérification approfondie et une protection professionnelle. 
-                    Notre équipe vérifie manuellement chaque candidature avant validation.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 hover:border-primary/50 transition-colors">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                    <Camera className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Preuves Photo Recommandées</h3>
-                  <p className="text-muted-foreground">
-                    L'Accompagnateur peut envoyer des photos et vidéos de votre chien pour un meilleur classement. 
-                    Vous suivez les aventures de votre compagnon en temps réel.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 hover:border-primary/50 transition-colors">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                    <Zap className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Paiement Sécurisé</h3>
-                  <p className="text-muted-foreground">
-                    Votre paiement est bloqué en attente. Il n'est libéré qu'après communication du code de fin de service par le Propriétaire. 
-                    Une sécurité unique sur le marché français.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 hover:border-primary/50 transition-colors">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 mx-auto">
                     <Heart className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Promenades Personnalisées</h3>
-                  <p className="text-muted-foreground">
-                    Chaque chien est unique. Nos Accompagnateurs adaptent l'intensité, la durée et le parcours aux besoins spécifiques 
-                    de votre animal : chiot, senior, athlétique ou calme.
+                  <h3 className="text-xl font-bold mb-2">Promenade adaptée à votre chien</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Chiot, senior, hyperactif, réactif : l'allure, la durée et le parcours sont ajustés. Pas de promenade groupée imposée.
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 hover:border-primary/50 transition-colors">
+              <Card className="border-2 hover:border-primary/50 transition-colors text-center">
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 mx-auto">
                     <MapPin className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Accompagnateurs de Proximité</h3>
-                  <p className="text-muted-foreground">
-                    Trouvez un Accompagnateur qualifié dans votre quartier. Notre algorithme géolocalise les professionnels 
-                    les plus proches pour un service rapide et pratique.
+                  <h3 className="text-xl font-bold mb-2">Quelqu'un de votre quartier</h3>
+                  <p className="text-muted-foreground text-sm">
+                    On affiche en priorité les Accompagnateurs à moins de 2 km. Pas de retard, pas de trajet inutile, pas d'excuses.
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 hover:border-primary/50 transition-colors">
+              <Card className="border-2 hover:border-primary/50 transition-colors text-center">
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                    <Award className="h-6 w-6 text-primary" />
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                    <Camera className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Protection Complète</h3>
-                  <p className="text-muted-foreground">
-                    Chaque mission est protégée et suivie de bout en bout. En cas d'incident, notre équipe gère toutes les démarches pour vous.
+                  <h3 className="text-xl font-bold mb-2">Photos pendant la balade</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Vous savez exactement ce qui se passe : photo au départ, en chemin, et retour. Sans avoir à le demander.
                   </p>
                 </CardContent>
               </Card>
