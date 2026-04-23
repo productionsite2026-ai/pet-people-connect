@@ -133,8 +133,8 @@ const WalkerDashboard = () => {
           <ActiveMissionCard
             dogName={activeMissionData.dogName}
             ownerName={activeMissionData.ownerName}
-            startTime={activeMissionData.startTime || "—"}
-            location={activeMissionData.location || "—"}
+            startTime={(activeMissionData as any).startTime || "—"}
+            location={(activeMissionData as any).location || "—"}
             status={activeMissionData.status === "in_progress" ? "en_cours" : activeMissionData.status === "completed" ? "terminée" : "en_route"}
           />
         )}
