@@ -131,7 +131,7 @@ const ServicePetSitting = () => {
           badgeText="Tous vos animaux choyés"
           title={<>Tout Animal <span className="text-gradient">Multi-Animaux</span> : Tous Vos Compagnons Gardés</>}
           description="Que vous ayez un chien, un chat, des oiseaux, des rongeurs ou même des reptiles, nos Accompagnateurs polyvalents s'occupent de tous vos animaux avec le même soin et la même attention. Une seule réservation pour toute votre ménagerie."
-          ctaText="Trouver un Accompagnateur"
+          ctaText="Réserver pour tous mes animaux"
           ctaLink="/walkers?service=pet_sitting"
           imageAlt="Accompagnateur avec chien, chat et lapin dans un intérieur chaleureux"
           trustIndicators={[

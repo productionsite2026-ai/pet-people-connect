@@ -143,7 +143,7 @@ const ServiceMarcheReguliere = () => {
           badgeText="Accompagnement long terme"
           title={<>Marche Régulière : <span className="text-gradient">Routine & Bien-être</span> pour Votre Chien</>}
           description="Offrez à votre compagnon la stabilité d'un Accompagnateur attitré. La marche régulière crée une routine rassurante, renforce le lien de confiance et améliore significativement le comportement de votre chien sur le long terme."
-          ctaText="Trouver mon Accompagnateur Certifié"
+          ctaText="Mettre en place une routine régulière"
           ctaLink="/walkers?service=marche_reguliere"
           secondaryCtaText="Voir les forfaits"
           imageAlt="Accompagnateur Certifié régulier avec un chien heureux sur un chemin bordé d'arbres en automne"

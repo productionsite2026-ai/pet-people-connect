@@ -96,9 +96,9 @@ export const HeroSection = () => {
             variants={itemVariants}
             className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight"
           >
-            Trouvez l'Accompagnateur Certifié{" "}
+            Quelqu'un de confiance{" "}
             <span className="text-gradient inline-block">
-              Idéal pour votre Animal
+              pour votre animal, dès aujourd'hui
             </span>
           </motion.h1>
 
@@ -106,9 +106,8 @@ export const HeroSection = () => {
             variants={itemVariants}
             className="text-lg md:text-2xl mb-6 md:mb-8 opacity-90 max-w-2xl mx-auto text-center"
           >
-            Trouvez un Accompagnateur Certifié pour votre animal partout en France.<br />
-            Paiement sécurisé innovant et preuves visuelles obligatoires.<br />
-            Votre sérénité est notre priorité absolue.
+            Promenade, garde, visite — partout en France.<br />
+            Paiement séquestré, code unique de validation, photos pendant la mission.
           </motion.p>
 
           <motion.div 
@@ -124,7 +123,7 @@ export const HeroSection = () => {
                 className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 h-auto w-full sm:w-auto shadow-button" 
                 onClick={() => window.location.href = '/walkers'}
               >
-                Réserver un Accompagnateur
+                Voir les Accompagnateurs près de chez moi
               </Button>
             </motion.div>
             <motion.div
@@ -137,11 +136,18 @@ export const HeroSection = () => {
                 className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 h-auto bg-white/10 border-white/30 text-white hover:bg-white/20 w-full sm:w-auto backdrop-blur-sm" 
                 onClick={() => window.location.href = '/walker/register'}
               >
-                Devenir Accompagnateur Certifié
+                Devenir Accompagnateur
               </Button>
             </motion.div>
           </motion.div>
 
+          {/* Microcopy de réassurance sous le CTA */}
+          <motion.p
+            variants={itemVariants}
+            className="text-xs md:text-sm mt-3 opacity-80"
+          >
+            Aucun engagement • Vous ne payez qu'après validation par votre code unique
+          </motion.p>
           {/* Trust indicators */}
           <div className="mt-8 md:mt-12 grid grid-cols-2 md:flex md:justify-center items-center gap-4 md:gap-8 text-xs md:text-sm">
             {[

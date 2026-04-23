@@ -120,7 +120,7 @@ const ServiceDogSitting = () => {
           badgeText="Présence humaine continue"
           title={<>Garde à Votre Domicile : Une <span className="text-gradient">Vraie Compagnie</span> pour Votre Chien</>}
           description="Bien plus qu'une simple garde, le garde à domicile offre à votre compagnon une présence humaine attentionnée, des jeux, des câlins et des promenades régulières. Votre chien ne sera jamais seul grâce à nos Accompagnateurs passionnés et vérifiés."
-          ctaText="Trouver un Accompagnateur"
+          ctaText="Réserver une garde à mon domicile"
           ctaLink="/walkers?service=dog_sitting"
           imageAlt="Accompagnateur professionnel avec deux chiens heureux sur un canapé confortable"
           trustIndicators={[
