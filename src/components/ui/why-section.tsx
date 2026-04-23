@@ -82,19 +82,16 @@ export const WhySection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/20 to-primary/10 text-primary px-5 py-2 rounded-full text-sm font-semibold mb-4 border border-primary/20"
+            className="inline-flex items-center gap-2 bg-primary/10 text-primary px-5 py-2 rounded-full text-sm font-semibold mb-4 border border-primary/20"
           >
             <Sparkles className="w-4 h-4" />
-            La Confiance Vérifiée
+            Notre protocole en 5 points
           </motion.span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5">
-            Pourquoi choisir DogWalking pour{" "}
-            <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              votre animal ?
-            </span>
+            Ce que <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">personne d'autre</span> ne fait
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-            Nous ne sommes pas un simple site de mise en relation. Nous sommes le garant de la sécurité et du bien-être de votre compagnon grâce à un protocole strict.
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+            Pas une promesse marketing : un protocole concret qui rend toute arnaque techniquement impossible.
           </p>
         </motion.div>
 

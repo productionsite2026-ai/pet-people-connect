@@ -95,20 +95,16 @@ export const UseCasesSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 md:mb-16"
         >
-          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 hover:bg-primary/15">
             <Sparkles className="w-3 h-3 mr-1" />
-            Pensé pour votre quotidien
+            Des situations qui parlent à tout le monde
           </Badge>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5">
-            Quand faire appel à{" "}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              DogWalking ?
-            </span>
+            Et si <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">aujourd'hui</span> c'était votre cas ?
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-            La vie ne s'arrête jamais, mais votre animal a toujours besoin d'attention.
-            Voici les situations du quotidien dans lesquelles nos Accompagnateurs Certifiés
-            prennent le relais — pour vous soulager et pour son bien-être.
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+            Pas besoin de partir 3 semaines pour avoir besoin d'aide. Voici quand nos
+            Accompagnateurs Certifiés interviennent — vraiment.
           </p>
         </motion.div>
 
