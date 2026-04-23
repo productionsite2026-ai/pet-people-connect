@@ -129,7 +129,15 @@ const WalkerDashboard = () => {
 
         <QuickActions role="walker" notifications={{ bookings: bookings.filter((b: any) => b.status === "pending").length }} />
 
-        {activeMissionData && <ActiveMissionCard mission={activeMissionData} />}
+        {activeMissionData && (
+          <ActiveMissionCard
+            dogName={activeMissionData.dogName}
+            ownerName={activeMissionData.ownerName}
+            startTime={activeMissionData.startTime || "—"}
+            location={activeMissionData.location || "—"}
+            status={activeMissionData.status === "in_progress" ? "en_cours" : activeMissionData.status === "completed" ? "terminée" : "en_route"}
+          />
+        )}
 
         <EarningsCard
           today={displayEarnings.today}
