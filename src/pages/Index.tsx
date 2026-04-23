@@ -4,11 +4,8 @@ import { SearchForm } from "@/components/ui/search-form";
 import { WhySection } from "@/components/ui/why-section";
 import { HowItWorksSection } from "@/components/ui/how-it-works-section";
 import { ServicesSection } from "@/components/ui/services-section";
-import { DogWalkingProtect } from "@/components/ui/dogwalking-protect";
 import { UserTypesSection } from "@/components/ui/user-types-section";
 import { UseCasesSection } from "@/components/ui/use-cases-section";
-
-import { HomeIntroSection } from "@/components/ui/home-intro-section";
 import { HomeFAQSection } from "@/components/ui/home-faq-section";
 import { Footer } from "@/components/ui/footer";
 import { FloatingContact } from "@/components/ui/floating-contact";
@@ -26,42 +23,41 @@ const Index = () => {
       />
       <Header />
       <main>
+        {/* 1. Hero + recherche */}
         <HeroSection />
         <section className="py-8 md:py-12 px-4 -mt-16 md:-mt-24 relative z-10">
           <div className="container mx-auto">
             <SearchForm />
           </div>
         </section>
-        
-        {/* Section Services immédiatement après le formulaire */}
+
+        {/* 2. Services proposés */}
         <ServicesSection />
 
-        {/* Mises en situation : quand faire appel à DogWalking */}
+        {/* 3. Déclencheurs concrets — quand on a besoin de la plateforme */}
         <UseCasesSection />
 
-        {/* Section Comment ça marche après les services */}
+        {/* 4. Comment ça marche (3 étapes) */}
         <HowItWorksSection />
-        
-        <HomeIntroSection />
-        
-        {/* Section Pourquoi Choisir DogWalking pour votre animal ? */}
-        <WhySection />
-        
 
-        <DogWalkingProtect />
+        {/* 5. Pourquoi nous (sécurité, code, preuves) — UN SEUL bloc confiance */}
+        <WhySection />
+
+        {/* 6. Propriétaires / Accompagnateurs */}
         <UserTypesSection />
-        
+
+        {/* 7. FAQ */}
         <HomeFAQSection />
-        
-        {/* Section Expert (E-E-A-T) */}
-        <section className="py-16 md:py-20">
+
+        {/* 8. Expert E-E-A-T (centré) */}
+        <section className="py-16 md:py-20 bg-muted/20">
           <div className="container mx-auto px-4">
-            <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Nos Experts au Service de Votre Animal
+            <div className="text-center mb-10 md:mb-12 max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                L'expertise au service de votre animal
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl">
-                DogWalking est dirigée par une équipe d'experts reconnus en comportement animal, vétérinaire et bien-être.
+              <p className="text-base md:text-lg text-muted-foreground">
+                Notre comité scientifique réunit vétérinaires et comportementalistes reconnus.
               </p>
             </div>
             <ExpertBio expert={getRandomExpert()} />
