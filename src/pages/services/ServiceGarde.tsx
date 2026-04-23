@@ -284,58 +284,7 @@ const ServiceGarde = () => {
           </div>
         </section>
 
-        {/* Garanties */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Nos Garanties pour Votre Tranquillité d'Esprit
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold mb-2">Gardiens Vérifiés</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Identité vérifiée et profil contrôlé avant validation
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <Camera className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold mb-2">Preuves Quotidiennes</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Photos et vidéos obligatoires chaque jour de la garde
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <Award className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold mb-2">Sécurité & Transparence</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Couverture complète en cas d'incident pendant la garde
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <h3 className="font-bold mb-2">Support 7j/7</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Équipe disponible pour répondre à toutes vos questions
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
+        {/* Bloc garanties retiré : redondant avec le protocole 5 points de la home */}
 
         {/* Témoignages */}
         <section className="py-16">
