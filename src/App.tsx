@@ -114,7 +114,7 @@ const App = () => (
               <Route path="/messages" element={<Messages />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogArticle />} />
-              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
               {/* Support Center (FAQ + About + Contact) */}
               <Route path="/support" element={<Support />} />
               <Route path="/qui-sommes-nous" element={<Navigate to="/support?tab=a-propos" replace />} />
