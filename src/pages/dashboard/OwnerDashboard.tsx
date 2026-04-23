@@ -17,7 +17,7 @@ import ProfileTab from "@/components/dashboard-v2/tabs/ProfileTab";
 import BookingsTab from "@/components/dashboard-v2/tabs/BookingsTab";
 import DogsTab from "@/components/dashboard-v2/tabs/DogsTab";
 import MessagesTab from "@/components/dashboard-v2/tabs/MessagesTab";
-import SEOHead from "@/components/SEOHead";
+import { SEOHead } from "@/components/seo/SEOHead";
 import { CheckCircle2, TrendingUp, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
