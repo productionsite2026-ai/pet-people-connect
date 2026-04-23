@@ -238,7 +238,7 @@ export function calculateInvoiceAmounts(
 export default {
   generateInvoicePDF,
   downloadInvoice,
-  sendInvoiceByEmail,
+  buildInvoiceFromBooking,
   generateInvoiceNumber,
   calculateInvoiceAmounts,
 };
