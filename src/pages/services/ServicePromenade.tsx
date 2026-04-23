@@ -100,7 +100,7 @@ const ServicePromenade = () => {
           badgeText="Service n°1 en France"
           title={<>Promenade de Chien par des <span className="text-gradient">Professionnels Vérifiés</span></>}
           description="Offrez à votre compagnon des promenades enrichissantes avec des Accompagnateurs passionnés et vérifiés. Exercice quotidien, socialisation et bien-être garantis partout en France."
-          ctaText="Trouver un Accompagnateur"
+          ctaText="Réserver une promenade près de chez moi"
           ctaLink="/walkers?service=promenade"
           imageAlt="Accompagnateur Certifié professionnel avec un chien heureux dans un parc en automne"
           trustIndicators={[

@@ -94,7 +94,7 @@ const ServiceGarde = () => {
           badgeText="Alternative aux pensions classiques"
           title={<>Garde de Chien par des <span className="text-gradient">Accompagnateurs Vérifiés</span></>}
           description="Confiez votre compagnon à des gardiens passionnés et certifiés. Garde à domicile ou hébergement en environnement familial, avec suivi quotidien et protection complète."
-          ctaText="Trouver un gardien"
+          ctaText="Trouver une garde pour mes dates"
           ctaLink="/walkers?service=garde"
           imageAlt="Accompagnateur Certifié prenant soin d'un chien heureux dans un salon confortable"
           trustIndicators={[

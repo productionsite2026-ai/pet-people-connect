@@ -94,7 +94,7 @@ const ServiceVisite = () => {
           badgeText="Votre animal reste chez lui"
           title={<>Visite à Domicile pour <span className="text-gradient">Votre Chien</span></>}
           description="Votre compagnon reste dans son environnement familier pendant que nos Accompagnateurs vérifiés assurent nourriture, eau fraîche, câlins et sortie hygiénique. La solution idéale pour les journées chargées."
-          ctaText="Trouver un visiteur"
+          ctaText="Réserver une visite à domicile"
           ctaLink="/walkers?service=visite"
           imageAlt="Accompagnateur Certifié nourrissant un chien heureux à domicile dans un appartement parisien"
           trustIndicators={[
