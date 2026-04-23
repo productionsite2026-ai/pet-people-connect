@@ -34,6 +34,7 @@ const Support = lazy(() => import("./pages/Support"));
 const FindWalkers = lazy(() => import("./pages/FindWalkers"));
 const NousSommesPresents = lazy(() => import("./pages/NousSommesPresents"));
 const DashboardPreview = lazy(() => import("./pages/DashboardPreview"));
+const AnnoncesLibres = lazy(() => import("./pages/AnnoncesLibres"));
 const ServicePromenade = lazy(() => import("./pages/services/ServicePromenade"));
 const ServiceGarde = lazy(() => import("./pages/services/ServiceGarde"));
 const ServiceVisite = lazy(() => import("./pages/services/ServiceVisite"));
@@ -105,6 +106,8 @@ const App = () => (
               {/* Standalone pages */}
               <Route path="/walkers" element={<FindWalkers />} />
               <Route path="/find-walkers" element={<FindWalkers />} />
+              <Route path="/annonces-libres" element={<AnnoncesLibres />} />
+              <Route path="/deposer-annonce" element={<Navigate to="/annonces-libres" replace />} />
               <Route path="/nous-sommes-presents" element={<NousSommesPresents />} />
               <Route path="/walker/:walkerId" element={<WalkerProfile />} />
               <Route path="/bookings/:id" element={<BookingDetails />} />
