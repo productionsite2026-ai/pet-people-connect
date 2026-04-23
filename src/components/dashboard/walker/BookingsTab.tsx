@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Calendar, CheckCircle, Clock, XCircle, MapPin, 
-  Dog, MessageCircle, Eye, AlertTriangle, Camera
+  Dog, MessageCircle, Eye, AlertTriangle, Camera, FileText
 } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,6 +14,7 @@ import { SOSButton } from "@/components/dashboard/shared/SOSButton";
 import { CancelBookingDialog } from "@/components/booking/CancelBookingDialog";
 import { ReportIncidentDialog } from "@/components/booking/ReportIncidentDialog";
 import MissionStartButton from "./MissionStartButton";
+import { downloadInvoice, buildInvoiceFromBooking } from "@/services/invoicing";
 
 const WalkerBookingsTab = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const WalkerBookingsTab = () => {
     
     const { data } = await supabase
       .from('bookings')
-      .select('*, dogs(name, breed, photo_url)')
+      .select('*, dogs(name, breed, photo_url), walker:profiles!bookings_walker_id_fkey(full_name, email, phone), owner:profiles!bookings_owner_id_fkey(full_name, email)')
       .eq('walker_id', session.user.id)
       .order('scheduled_date', { ascending: false });
     
@@ -289,6 +290,18 @@ const WalkerBookingsTab = () => {
                             className="ml-auto"
                           />
                         </>
+                      )}
+
+                      {booking.status === 'completed' && booking.payment_status === 'released' && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => downloadInvoice(buildInvoiceFromBooking(booking))}
+                          className="gap-1"
+                        >
+                          <FileText className="h-4 w-4" />
+                          Facture
+                        </Button>
                       )}
 
                       <Button 

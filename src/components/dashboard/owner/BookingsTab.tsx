@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ReviewDialog } from "@/components/booking/ReviewDialog";
 import { CancelBookingDialog } from "@/components/booking/CancelBookingDialog";
+import { downloadInvoice, buildInvoiceFromBooking } from "@/services/invoicing";
+import { FileText } from "lucide-react";
 
 const BookingsTab = () => {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ const BookingsTab = () => {
     
     const { data } = await supabase
       .from('bookings')
-      .select('*, dogs(name, breed, photo_url)')
+      .select('*, dogs(name, breed, photo_url), walker:profiles!bookings_walker_id_fkey(full_name, email, phone), owner:profiles!bookings_owner_id_fkey(full_name, email)')
       .eq('owner_id', session.user.id)
       .order('scheduled_date', { ascending: false });
     
@@ -286,6 +288,19 @@ const BookingsTab = () => {
                         >
                           <Star className="h-4 w-4" />
                           Avis
+                        </Button>
+                      )}
+
+                      {/* Invoice download for completed/paid bookings */}
+                      {booking.status === 'completed' && booking.payment_status === 'released' && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => downloadInvoice(buildInvoiceFromBooking(booking))}
+                          className="gap-1"
+                        >
+                          <FileText className="h-4 w-4" />
+                          Facture
                         </Button>
                       )}
 

@@ -172,29 +172,40 @@ export async function downloadInvoice(invoice: InvoiceData): Promise<void> {
 }
 
 /**
- * Envoyer une facture par email
+ * Construire un objet InvoiceData à partir d'un booking complet
+ * (jointures dogs + walker_profile attendues côté appelant)
  */
-export async function sendInvoiceByEmail(invoice: InvoiceData): Promise<boolean> {
-  try {
-    const blob = await generateInvoicePDF(invoice);
-    
-    // Créer FormData pour l'upload
-    const formData = new FormData();
-    formData.append('file', blob, `facture-${invoice.invoiceNumber}.pdf`);
-    formData.append('email', invoice.ownerEmail);
-    formData.append('invoiceNumber', invoice.invoiceNumber);
+export function buildInvoiceFromBooking(booking: any): InvoiceData {
+  const total = Number(booking.total_price || booking.price || 0);
+  const walkerAmount = Number(booking.walker_amount || total * 0.85);
+  const platformFee = Number(booking.platform_fee_amount || total * 0.15);
+  const durationH = (Number(booking.duration_minutes) || 60) / 60;
+  const hourlyRate = durationH > 0 ? total / durationH : total;
 
-    // Appel à l'API pour envoyer l'email
-    const response = await fetch('/api/invoices/send-email', {
-      method: 'POST',
-      body: formData,
-    });
-
-    return response.ok;
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi de la facture:', error);
-    return false;
-  }
+  return {
+    id: booking.id,
+    invoiceNumber: `FAC-${String(booking.id).slice(0, 8).toUpperCase()}`,
+    date: new Date(booking.funds_released_at || booking.updated_at || Date.now()),
+    dueDate: new Date(),
+    bookingId: booking.id,
+    walkerName: booking.walker?.full_name || 'Accompagnateur',
+    walkerEmail: booking.walker?.email || '',
+    walkerPhone: booking.walker?.phone || '',
+    walkerAddress: booking.walker?.address || '',
+    ownerName: booking.owner?.full_name || 'Client',
+    ownerEmail: booking.owner?.email || '',
+    ownerAddress: booking.address || '',
+    missionDescription: `${booking.service_type || 'Prestation'} — ${booking.dogs?.name || 'Animal'}`,
+    missionDate: new Date(booking.scheduled_date),
+    duration: durationH,
+    hourlyRate,
+    subtotal: walkerAmount,
+    taxRate: 0,
+    tax: 0,
+    total,
+    status: booking.payment_status === 'released' ? 'paid' : 'sent',
+    notes: `Commission plateforme : ${platformFee.toFixed(2)}€ (15%) — Reversé à l'accompagnateur : ${walkerAmount.toFixed(2)}€ (85%)`,
+  };
 }
 
 /**
@@ -227,7 +238,7 @@ export function calculateInvoiceAmounts(
 export default {
   generateInvoicePDF,
   downloadInvoice,
-  sendInvoiceByEmail,
+  buildInvoiceFromBooking,
   generateInvoiceNumber,
   calculateInvoiceAmounts,
 };
