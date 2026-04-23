@@ -49,7 +49,7 @@ export const Footer = () => {
               <li><Link to="/walkers" className="hover:text-white transition-colors">Trouver un Accompagnateur</Link></li>
               <li><Link to="/nous-sommes-presents" className="hover:text-white transition-colors">Zones d'intervention</Link></li>
               <li><Link to="/dashboard" className="hover:text-white transition-colors">Mon espace Propriétaire</Link></li>
-              <li><Link to="/dashboard?tab=parrainage" className="hover:text-white transition-colors">Parrainage</Link></li>
+              <li><Link to="/tarifs#parrainage" className="hover:text-white transition-colors">Parrainage</Link></li>
             </ul>
           </div>
 

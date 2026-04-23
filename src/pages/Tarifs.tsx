@@ -102,8 +102,8 @@ const Tarifs = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Tarifs DogWalking | Prix Promenade, Garde & Soins"
-        description="Découvrez nos tarifs indicatifs : promenade à partir de 8€, garde à partir de 10€. Système de paiement sécurisé avec code unique et preuves visuelles obligatoires."
+        title="Tarifs & Parrainage DogWalking | Promenade dès 8€, Garde dès 10€"
+        description="Découvrez nos tarifs indicatifs (promenade 8€, garde 10€) et notre programme de parrainage : 15€ offerts à chaque parrainage, 10€ pour votre filleul. Paiement sécurisé."
         canonical="https://dogwalking.fr/tarifs"
       />
       <Header />
